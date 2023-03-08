@@ -2,6 +2,8 @@ import React, { FormEventHandler, useRef } from "react";
 import { TodoItem } from "./TodoList";
 import { nanoid } from "nanoid";
 
+import styles from "./NewTodoForm.module.css";
+
 interface Props {
   addTodo: (todo: TodoItem) => void;
   isEditing?: boolean;
@@ -33,7 +35,7 @@ function NewTodoForm({ addTodo, isEditing = false, editTodo, todo }: Props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.NewTodoForm}>
         {/* <label htmlFor="todoInput">New Todo</label>
         <br /> */}
 

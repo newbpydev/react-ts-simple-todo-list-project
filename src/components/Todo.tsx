@@ -2,6 +2,8 @@ import React, { FormEventHandler, MouseEventHandler, useState } from "react";
 import { TodoItem } from "./TodoList";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 
+import styles from "./Todo.module.css";
+
 interface Props {
   todo: TodoItem;
   handleIsDone: (todoId: string, isDone: boolean) => void;
@@ -34,6 +36,7 @@ function Todo({ todo, handleIsDone, deleteTodo, editTodo }: Props) {
   const renderTodo = () => {
     return (
       <div
+        className={styles.Todo}
         style={{
           textDecoration: todo.isDone ? "line-through" : "",
           color: todo.isDone ? "lightgrey" : "",
@@ -41,24 +44,35 @@ function Todo({ todo, handleIsDone, deleteTodo, editTodo }: Props) {
         }}
         onClick={handleIsChecked}
       >
-        <span>{todo.item}</span>
+        <li
+          className={`${styles["Todo-task"]} ${
+            todo.isDone ? styles.completed : ""
+          }`}
+        >
+          {/* <li
+          className={`${styles["Todo-task"]} ${
+            todo.isDone ? styles.completed : ""
+          }`}
+        > */}
+          {todo.item}
+        </li>
 
-        <span className="icons">
+        <div className={styles["Todo-buttons"]}>
           <button title="Edit Todo" onClick={toggleForm}>
             <FaEdit />
           </button>
           <button onClick={handleDelete} title="Delete Todo">
             <FaTrashAlt />
           </button>
-        </span>
+        </div>
       </div>
     );
   };
 
   const renderEditForm = () => {
     return (
-      <div>
-        <form onSubmit={handleUpdate}>
+      <div className={styles.Todo}>
+        <form onSubmit={handleUpdate} className={styles["Todo-edit-form"]}>
           <input
             type="text"
             name="todoInput"

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import NewTodoForm from "./NewTodoForm";
 import Todo from "./Todo";
 
+import styles from "./TodoList.module.css";
+
 export interface TodoItem {
   id: string;
   item: string;
@@ -51,7 +53,11 @@ function TodoList() {
 
   const renderTodos = () => {
     return (
-      <>
+      <div className={styles.TodoList}>
+        <h1>
+          React Todo List!<span>A Simple React Todo List App.</span>
+        </h1>
+
         <ul>
           {todos.map((todo) => (
             <Todo
@@ -64,9 +70,8 @@ function TodoList() {
           ))}
         </ul>
 
-        <h2>New Todo</h2>
         <NewTodoForm addTodo={addTodo} />
-      </>
+      </div>
     );
   };
 
