@@ -4,10 +4,17 @@ import { nanoid } from "nanoid";
 
 interface Props {
   addTodo: (todo: TodoItem) => void;
+  isEditing?: boolean;
+  editTodo?: (todoId: string, text: string) => void;
+  todo?: TodoItem;
 }
 
-function NewTodoForm({ addTodo }: Props) {
+function NewTodoForm({ addTodo, isEditing = false, editTodo, todo }: Props) {
   const todoRef = useRef<HTMLInputElement>(null);
+
+  // if (isEditing && todoRef.current?.value) {
+  //   todoRef.current.value = todo.item
+  // }
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
@@ -20,6 +27,7 @@ function NewTodoForm({ addTodo }: Props) {
       };
 
       addTodo(newTodo);
+      todoRef.current.value = "";
     }
   };
 

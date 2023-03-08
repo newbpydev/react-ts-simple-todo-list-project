@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { FormEventHandler, MouseEventHandler, useState } from "react";
 import { TodoItem } from "./TodoList";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 
@@ -10,6 +10,9 @@ interface Props {
 }
 
 function Todo({ todo, handleIsDone, deleteTodo, editTodo }: Props) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [textInput, setTextInput] = useState(todo.item);
+
   const handleIsChecked: MouseEventHandler = (e) => {
     handleIsDone(todo.id, !todo.isDone);
   };
@@ -18,28 +21,58 @@ function Todo({ todo, handleIsDone, deleteTodo, editTodo }: Props) {
     deleteTodo(todo.id);
   };
 
-  const handleEdit: MouseEventHandler = (e) => {};
+  const handleEdit: MouseEventHandler = (e) => {
+    setIsEditing(true);
+  };
 
-  return (
-    <div
-      style={{
-        textDecoration: todo.isDone ? "line-through" : "",
-        cursor: "pointer",
-      }}
-      onClick={handleIsChecked}
-    >
-      <span>{todo.item}</span>
+  const handleSubmit: FormEventHandler = (e) => {
+    e.preventDefault();
+    editTodo(todo.id, textInput);
+    setIsEditing(false);
+  };
 
-      <span className="icons">
-        <button title="Edit Todo" onClick={handleEdit}>
-          <FaEdit />
-        </button>
-        <button onClick={handleDelete} title="Delete Todo">
-          <FaTrashAlt />
-        </button>
-      </span>
-    </div>
-  );
+  const renderTodo = () => {
+    return (
+      <div
+        style={{
+          textDecoration: todo.isDone ? "line-through" : "",
+          cursor: "pointer",
+        }}
+        onClick={handleIsChecked}
+      >
+        <span>{todo.item}</span>
+
+        <span className="icons">
+          <button title="Edit Todo" onClick={handleEdit}>
+            <FaEdit />
+          </button>
+          <button onClick={handleDelete} title="Delete Todo">
+            <FaTrashAlt />
+          </button>
+        </span>
+      </div>
+    );
+  };
+
+  const renderEditForm = () => {
+    return (
+      <div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="todoInput"
+            id="todoInput"
+            placeholder={todo.item}
+            value={textInput}
+            onChange={(e) => setTextInput(e.target.value)}
+          />
+          <button type="submit">SAVE</button>
+        </form>
+      </div>
+    );
+  };
+
+  return <>{!isEditing ? renderTodo() : renderEditForm()}</>;
 }
 
 export default Todo;

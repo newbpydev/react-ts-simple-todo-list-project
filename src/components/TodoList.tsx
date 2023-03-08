@@ -52,7 +52,7 @@ function TodoList() {
   const renderTodos = () => {
     return (
       <>
-        <div>
+        <ul>
           {todos.map((todo) => (
             <Todo
               key={todo.id}
@@ -62,7 +62,9 @@ function TodoList() {
               editTodo={editTodo}
             />
           ))}
-        </div>
+        </ul>
+
+        <h2>New Todo</h2>
         <NewTodoForm addTodo={addTodo} />
       </>
     );
