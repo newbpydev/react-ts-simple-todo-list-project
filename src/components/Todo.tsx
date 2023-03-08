@@ -21,11 +21,11 @@ function Todo({ todo, handleIsDone, deleteTodo, editTodo }: Props) {
     deleteTodo(todo.id);
   };
 
-  const handleEdit: MouseEventHandler = (e) => {
+  const toggleForm: MouseEventHandler = (e) => {
     setIsEditing(true);
   };
 
-  const handleSubmit: FormEventHandler = (e) => {
+  const handleUpdate: FormEventHandler = (e) => {
     e.preventDefault();
     editTodo(todo.id, textInput);
     setIsEditing(false);
@@ -36,6 +36,7 @@ function Todo({ todo, handleIsDone, deleteTodo, editTodo }: Props) {
       <div
         style={{
           textDecoration: todo.isDone ? "line-through" : "",
+          color: todo.isDone ? "lightgrey" : "",
           cursor: "pointer",
         }}
         onClick={handleIsChecked}
@@ -43,7 +44,7 @@ function Todo({ todo, handleIsDone, deleteTodo, editTodo }: Props) {
         <span>{todo.item}</span>
 
         <span className="icons">
-          <button title="Edit Todo" onClick={handleEdit}>
+          <button title="Edit Todo" onClick={toggleForm}>
             <FaEdit />
           </button>
           <button onClick={handleDelete} title="Delete Todo">
@@ -57,7 +58,7 @@ function Todo({ todo, handleIsDone, deleteTodo, editTodo }: Props) {
   const renderEditForm = () => {
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleUpdate}>
           <input
             type="text"
             name="todoInput"
